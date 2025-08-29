@@ -1,5 +1,16 @@
 import { supabaseServer } from "@/lib/supabase";
 
+type Product = {
+  id: string;
+  name: string;
+  price: number | null;
+  category: string | null;
+  code: string | null;
+  is_hidden: boolean | null;
+  discount_value: number | null;
+  discount_type: string | null;
+};
+
 export const dynamic = "force-dynamic"; // always server fetch latest
 
 export default async function ProductsPage() {
@@ -29,7 +40,7 @@ export default async function ProductsPage() {
             </tr>
           </thead>
           <tbody>
-            {((products || []) as any[]).map((p) => (
+            {((products || []) as Product[]).map((p) => (
               <tr key={p.id} className="odd:bg-white/[.02]">
                 <td className="px-3 py-2">{p.category}</td>
                 <td className="px-3 py-2">{p.name}</td>

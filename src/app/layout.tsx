@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,10 +34,10 @@ export default function RootLayout({
               <p className="text-xs text-white/60">Painel do Proprietário</p>
             </div>
             <nav className="p-3 space-y-1 text-sm">
-              <a className="block rounded px-3 py-2 hover:bg-white/5" href="/">Visão Geral</a>
-              <a className="block rounded px-3 py-2 hover:bg-white/5" href="/products">Produtos</a>
-              <a className="block rounded px-3 py-2 hover:bg-white/5" href="/complements">Complementos</a>
-              <a className="block rounded px-3 py-2 hover:bg-white/5" href="/crediarios">Crediários</a>
+              <Link className="block rounded px-3 py-2 hover:bg-white/5" href="/">Visão Geral</Link>
+              <Link className="block rounded px-3 py-2 hover:bg-white/5" href="/products">Produtos</Link>
+              <Link className="block rounded px-3 py-2 hover:bg-white/5" href="/complements">Complementos</Link>
+              <Link className="block rounded px-3 py-2 hover:bg-white/5" href="/crediarios">Crediários</Link>
             </nav>
           </aside>
           <main className="p-6">

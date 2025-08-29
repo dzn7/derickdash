@@ -1,4 +1,5 @@
 import { supabaseServer } from "@/lib/supabase";
+import Link from "next/link";
 type HistoryRow = {
   id: string;
   crediario_id: string;
@@ -56,7 +57,7 @@ export default async function Home() {
               {(recentHistory as HistoryRow[] | null || []).map((h) => (
                 <tr key={h.id} className="odd:bg-white/[.02]">
                   <td className="px-3 py-2">{h.date ? new Date(h.date).toLocaleString() : "-"}</td>
-                  <td className="px-3 py-2"><a className="underline" href={`/crediarios/${h.crediario_id}`}>{h.crediario_id}</a></td>
+                  <td className="px-3 py-2"><Link className="underline" href={`/crediarios/${h.crediario_id}`}>{h.crediario_id}</Link></td>
                   <td className="px-3 py-2">{h.type}</td>
                   <td className="px-3 py-2">R$ {Number(h.amount ?? 0).toFixed(2)}</td>
                   <td className="px-3 py-2">{h.description || "-"}</td>

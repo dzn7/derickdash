@@ -2,6 +2,15 @@ import { supabaseServer } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
 
+type HistoryRow = {
+  id: string;
+  type: string | null;
+  amount: number | null;
+  description: string | null;
+  items_consumed: string | null;
+  date: string | null;
+};
+
 export default async function CrediarioDetailPage({ params }: { params: { id: string } }) {
   const { id } = params;
 
@@ -22,8 +31,13 @@ export default async function CrediarioDetailPage({ params }: { params: { id: st
   if (!cred) return <div>Crediário não encontrado.</div>;
   if (e2) return <div className="text-red-400">Erro: {e2.message}</div>;
 
-  const consumo = (hist || []).filter(h => (h.type || "").toLowerCase() !== "payment").reduce((a, b) => a + Number(b.amount || 0), 0);
-  const pagamentos = (hist || []).filter(h => (h.type || "").toLowerCase() === "payment").reduce((a, b) => a + Number(b.amount || 0), 0);
+  const histRows = (hist || []) as HistoryRow[];
+  const consumo = histRows
+    .filter((h) => (h.type || "").toLowerCase() !== "payment")
+    .reduce((a, b) => a + Number(b.amount || 0), 0);
+  const pagamentos = histRows
+    .filter((h) => (h.type || "").toLowerCase() === "payment")
+    .reduce((a, b) => a + Number(b.amount || 0), 0);
   const saldo = consumo - pagamentos;
 
   return (
@@ -68,9 +82,9 @@ export default async function CrediarioDetailPage({ params }: { params: { id: st
               </tr>
             </thead>
             <tbody>
-              {(hist || []).map((h) => (
+              {histRows.map((h) => (
                 <tr key={h.id} className="odd:bg-white/[.02]">
-                  <td className="px-3 py-2">{h.date ? new Date(h.date as any).toLocaleString() : "-"}</td>
+                  <td className="px-3 py-2">{h.date ? new Date(h.date).toLocaleString() : "-"}</td>
                   <td className="px-3 py-2">{h.type}</td>
                   <td className="px-3 py-2">R$ {Number(h.amount ?? 0).toFixed(2)}</td>
                   <td className="px-3 py-2">{h.description || "-"}</td>
