@@ -1,4 +1,5 @@
 import { supabaseServer } from "@/lib/supabase";
+import Link from "next/link";
 
 type Crediario = {
   id: string;
@@ -55,12 +56,17 @@ export default async function CrediariosPage() {
               return (
                 <tr key={c.id} className="odd:bg-white/[.02]">
                   <td className="px-3 py-2">{c.customer_name || c.id}</td>
-                  <td className="px-3 py-2">{c.is_active ? "Sim" : "Não"}</td>
+                  <td className="px-3 py-2">
+                    <span className={`inline-flex items-center gap-1 text-xs px-2 py-1 rounded border ${c.is_active ? "border-emerald-300/30 text-emerald-300 bg-emerald-500/10" : "border-white/20 text-white/70 bg-white/5"}`}>
+                      <span className={`h-1.5 w-1.5 rounded-full ${c.is_active ? "bg-emerald-400" : "bg-white/40"}`}></span>
+                      {c.is_active ? "Ativo" : "Inativo"}
+                    </span>
+                  </td>
                   <td className="px-3 py-2">R$ {t.consumo.toFixed(2)}</td>
                   <td className="px-3 py-2">R$ {t.pagamento.toFixed(2)}</td>
-                  <td className="px-3 py-2 font-medium">R$ {saldo.toFixed(2)}</td>
+                  <td className={`px-3 py-2 font-medium ${saldo >= 0 ? "text-white" : "text-red-300"}`}>R$ {saldo.toFixed(2)}</td>
                   <td className="px-3 py-2">
-                    <a className="underline" href={`/crediarios/${c.id}`}>Ver detalhes</a>
+                    <Link className="text-xs px-2 py-1 rounded border border-white/15 hover:bg-white/5" href={`/crediarios/${c.id}`}>Ver detalhes</Link>
                   </td>
                 </tr>
               );
